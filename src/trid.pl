@@ -3,11 +3,10 @@
    *******************************/
 
 % tridplayer([0,12,0,0,9,0,0,0,6,6,0,12,0,8,0]).
+% tridplayer([A,12,B,C,9,D,E,F,6,6,G,12,H,8,I]).
 
 :- include('print.pl').
 :- include('board.pl').
-
-
 ?- use_module(library(system)).
 ?- use_module(library(lists)).
 ?- use_module(library(random)).
@@ -58,8 +57,6 @@ variables(A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Choice):- nth1(1,Choice,A
         nth1(14,Choice,N1),
         nth1(15,Choice,O1).
 
-exit(_) :- nl,nl,write('See you later!!!!'),nl,nl.
-
 
 playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
         domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
@@ -75,7 +72,7 @@ playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N
         all_different([C,E,H,L]),
         all_different([F,I,M]),
         all_different([J,N]),
-        A + B + C #= A1,
+        A + B + C #= A1, 
         D + B + E #= B1,
         C + B + E #= C1,
         C + F + E #= D1,
@@ -85,13 +82,50 @@ playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N
         I + F + E #= H1,
         I + J + E #= I1,
         G + K + L #= J1,
+        G + H + L #= K1,
         L + H + M #= L1,
         M + H + I #= M1,       
         M + N + I #= N1,       
         I + J + N #= O1,       
-        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
+        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O]).
 
+% preenche todo o tabuleiro de jogo com uma solução possível
+tridplayerauto(_) :-
+        Value is 5,
+        playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]),
+        generateBoard(X,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1),
+        printBoard(X).
 
+playGameauto([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
+        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1],1,Value),
+        all_different([A,B,D,G,K]),
+        all_different([A,C,F,J,O]),
+        all_different([K,L,M,N,O]),
+        all_different([G,H,I,J]),
+        all_different([D,E,F]),
+        all_different([B,C]),
+        all_different([B,E,I,N]),
+        all_different([D,H,M]),
+        all_different([G,L]),
+        all_different([C,E,H,L]),
+        all_different([F,I,M]),
+        all_different([J,N]),
+        A + B + C #= A1, 
+        D + B + E #= B1,
+        C + B + E #= C1,
+        C + F + E #= D1,
+        G + D + H #= E1,
+        D + E + H #= F1,
+        H + E + I #= G1,
+        I + F + E #= H1,
+        I + J + E #= I1,
+        G + K + L #= J1,
+        G + H + L #= K1,
+        L + H + M #= L1,
+        M + H + I #= M1,       
+        M + N + I #= N1,       
+        I + J + N #= O1,       
+        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1]).
 
 %playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
 %        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
@@ -362,7 +396,7 @@ playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N
 %        all_different([J,N]),
 %        O1 \= 0,
 %        I + J + N #= O1,,        %
-        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
+%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
 
 
 
@@ -373,4 +407,4 @@ endGame(_):-
         write('****************************************************'),nl,
         nl,nl,nl.
 
-
+exit(_) :- nl,nl,write('See you later!!!!'),nl,nl.
