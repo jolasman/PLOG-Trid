@@ -28,24 +28,40 @@ menu(Choice):- Choice == 2,
 
 tridplayer(X) :-
 %        printMenu(X),
-        generateEmptyBoard(X),
+        Value is 5,
+        playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]),
+        generateBoard(X,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O),
         printBoard(X).
-%        playGame(X).
 
 exit(_) :- nl,nl,write('See you later!!!!'),nl,nl.
 
 %se o player1 ganhar faz endgame, se nao ganhar verifica se o player dois ganha ou nao.
 %se o player2 ganhar acaba, se nao ganhar chama de novo
-playGame(X) :- p1(P1xpos, P1ypos),          
-        playerturn(X, X1, P1xpos, P1ypos, 'W'),
-        printBoard(X1),
-        (isWinCondition(X1,P1xpos,P1ypos),nl, endGame(_);
-         p2(P2xpos, P2ypos),          
-         playerturn(X1, X2, P2xpos,P2ypos, 'B'),
-         printBoard(X2),
-         (isWinCondition(X2,P2xpos,P2ypos),nl,endGame(_);
-          \+isWinCondition(X2,P2xpos,P2ypos), playGame(X2)) ).
-
+playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]) :- domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
+        all_different([A,B,D,G,K]),
+        all_different([A,C,F,J,O]),
+        all_different([K,L,M,N,O]),
+        all_different([G,H,I,J]),
+        all_different([D,E,F]),
+        all_different([B,C]),
+        all_different([B,E,I,N]),
+        all_different([D,H,M]),
+        all_different([G,L]),
+        all_different([C,E,H,L]),
+        all_different([F,I,M]),
+        all_different([J,N]),
+        G + K + L #= 6,
+        L + H + M #= 12,
+        M + N + I #= 8,
+        G + H + D #= 9,
+        I + J + F #= 6,
+        D + E + B #= 12,        
+        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
+        
+        
+        
+        
+        
 
 generateRandomMove(Xpos,Ypos) :-
         random(1, 11, Ypos),
