@@ -36,12 +36,18 @@ tridchoose(_):- generateEmptyBoard(X),
 
 tridplayer(Choice) :-
         variables(A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Choice),
+        variablesat([A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1],Result),
         Value is 5,
         playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]),
         generateBoard(X,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1),
         printBoard(X).
 
-variables(A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Choice):- nth1(1,Choice,A1),
+% retorna a lista da posição das variaveis na lista que recebe. devia ser os numeros mas pronto 
+variablesat(List, Is) :-
+        findall(N, nth1(N, List,  number(_)), Is).
+
+variables(A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Choice):- 
+        nth1(1,Choice,A1),
         nth1(2,Choice,B1),
         nth1(3,Choice,C1),
         nth1(4,Choice,D1),
