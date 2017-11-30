@@ -2,8 +2,8 @@
    * para correr o jogo e' consultar este ficheiro e fazer start(X). *
    *******************************/
 
-% tridplayer([0,12,0,0,9,0,0,0,6,6,0,12,0,8,0]).
-% tridplayer([A,12,B,C,9,D,E,F,6,6,G,12,H,8,I]).
+% tridplayer([0,12,0,0,9,0,0,0,6,6,0,12,0,8,0,0]).
+% tridplayer([A,12,B,C,9,D,E,F,6,6,G,12,H,8,I,P]).
 
 :- include('print.pl').
 :- include('board.pl').
@@ -35,18 +35,18 @@ tridchoose(_):- generateEmptyBoard(X),
         tridplayer(Choice).
 
 tridplayer(Choice) :-
-        variables(A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Choice),
-        variablesat([A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1],Result),
+        variables(A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Choice),
+%        variablesat([A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1],Result),
         Value is 5,
-        playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]),
-        generateBoard(X,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1),
+        playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Value]),
+        generateBoard(X,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1),
         printBoard(X).
 
 % retorna a lista da posição das variaveis na lista que recebe. devia ser os numeros mas pronto 
 variablesat(List, Is) :-
         findall(N, nth1(N, List,  number(_)), Is).
 
-variables(A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Choice):- 
+variables(A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Choice):- 
         nth1(1,Choice,A1),
         nth1(2,Choice,B1),
         nth1(3,Choice,C1),
@@ -61,10 +61,11 @@ variables(A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Choice):-
         nth1(12,Choice,L1),
         nth1(13,Choice,M1),
         nth1(14,Choice,N1),
-        nth1(15,Choice,O1).
+        nth1(15,Choice,O1),
+        nth1(16,Choice,P1).
 
 
-playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
+playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Value]) :-
         domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
         all_different([A,B,D,G,K]),
         all_different([A,C,F,J,O]),
@@ -86,13 +87,14 @@ playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N
         D + E + H #= F1,
         H + E + I #= G1,
         I + F + E #= H1,
-        I + J + E #= I1,
+        I + J + F #= I1,
         G + K + L #= J1,
         G + H + L #= K1,
         L + H + M #= L1,
-        M + H + I #= M1,       
+        I + H + M #= M1,       
         M + N + I #= N1,       
         I + J + N #= O1,       
+        O + J + N #= P1,       
         labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O]).
 
 % preenche todo o tabuleiro de jogo com uma solução possível
