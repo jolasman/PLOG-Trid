@@ -17,8 +17,9 @@ trid:-
         write('********   Trid - PLOG - Version 1.0   ************'),nl,
         write('***************************************************'),nl,
         nl,nl,
-        nl, write('1 - Play'),
-        nl, write('2 - Exit Game'),nl,
+        nl, write('1 - Play Game choosing the variables'),
+        nl, write('2 - Play Game in an automatic way'),
+        nl, write('3 - Exit Game'),nl,
         write('Choose : '),nl,nl,
         read(Choice),
         menu(Choice).
@@ -26,6 +27,8 @@ trid:-
 menu(Choice):- Choice == 1, 
         tridchoose(_). 
 menu(Choice):- Choice == 2, 
+        tridplayerauto(_).
+menu(Choice):- Choice == 3, 
         exit(_).
 
 tridchoose(_):- generateEmptyBoard(X),
@@ -100,8 +103,8 @@ playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N
 % preenche todo o tabuleiro de jogo com uma solução possível
 tridplayerauto(_) :-
         Value is 5,
-        playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]),
-        generateBoard(X,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1),
+        playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Value]),
+        generateBoard(X,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1),
         printBoard(X).
 
 playGameauto([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
@@ -134,279 +137,6 @@ playGameauto([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,
         M + N + I #= N1,       
         I + J + N #= O1,       
         labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1]).
-
-%playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-%        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
-%        all_different([A,B,D,G,K]),
-%        all_different([A,C,F,J,O]),
-%        all_different([K,L,M,N,O]),
-%        all_different([G,H,I,J]),
-%        all_different([D,E,F]),
-%        all_different([B,C]),
-%        all_different([B,E,I,N]),
-%        all_different([D,H,M]),
-%        all_different([G,L]),
-%        all_different([C,E,H,L]),
-%        all_different([F,I,M]),
-%        all_different([J,N]),
-%        A1 \= 0,
-%        A + B + C #= A1,        
-%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
-%
-%
-%playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-%        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
-%        all_different([A,B,D,G,K]),
-%        all_different([A,C,F,J,O]),
-%        all_different([K,L,M,N,O]),
-%        all_different([G,H,I,J]),
-%        all_different([D,E,F]),
-%        all_different([B,C]),
-%        all_different([B,E,I,N]),
-%        all_different([D,H,M]),
-%        all_different([G,L]),
-%        all_different([C,E,H,L]),
-%        all_different([F,I,M]),
-%        all_different([J,N]),
-%        B1 \= 0,
-%        D + E + B #= B1,        
-%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
-%
-%playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-%        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
-%        all_different([A,B,D,G,K]),
-%        all_different([A,C,F,J,O]),
-%        all_different([K,L,M,N,O]),
-%        all_different([G,H,I,J]),
-%        all_different([D,E,F]),
-%        all_different([B,C]),
-%        all_different([B,E,I,N]),
-%        all_different([D,H,M]),
-%        all_different([G,L]),
-%        all_different([C,E,H,L]),
-%        all_different([F,I,M]),
-%        all_different([J,N]),
-%        C1 \= 0,
-%        B + C + E #= C1,       
-%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
-%
-%playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-%        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
-%        all_different([A,B,D,G,K]),
-%        all_different([A,C,F,J,O]),
-%        all_different([K,L,M,N,O]),
-%        all_different([G,H,I,J]),
-%        all_different([D,E,F]),
-%        all_different([B,C]),
-%        all_different([B,E,I,N]),
-%        all_different([D,H,M]),
-%        all_different([G,L]),
-%        all_different([C,E,H,L]),
-%        all_different([F,I,M]),
-%        all_different([J,N]),
-%        D1 \= 0,
-%        E + F + C #= D1,       
-%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
-%
-%playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-%        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
-%        all_different([A,B,D,G,K]),
-%        all_different([A,C,F,J,O]),
-%        all_different([K,L,M,N,O]),
-%        all_different([G,H,I,J]),
-%        all_different([D,E,F]),
-%        all_different([B,C]),
-%        all_different([B,E,I,N]),
-%        all_different([D,H,M]),
-%        all_different([G,L]),
-%        all_different([C,E,H,L]),
-%        all_different([F,I,M]),
-%        all_different([J,N]),
-%        E1 \= 0,
-%        G + H + D #= E1,
-%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
-%
-%playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-%        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
-%        all_different([A,B,D,G,K]),
-%        all_different([A,C,F,J,O]),
-%        all_different([K,L,M,N,O]),
-%        all_different([G,H,I,J]),
-%        all_different([D,E,F]),
-%        all_different([B,C]),
-%        all_different([B,E,I,N]),
-%        all_different([D,H,M]),
-%        all_different([G,L]),
-%        all_different([C,E,H,L]),
-%        all_different([F,I,M]),
-%        all_different([J,N]),
-%        F1 \= 0,
-%        D + E + H #= F1,       
-%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
-%
-%playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-%        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
-%        all_different([A,B,D,G,K]),
-%        all_different([A,C,F,J,O]),
-%        all_different([K,L,M,N,O]),
-%        all_different([G,H,I,J]),
-%        all_different([D,E,F]),
-%        all_different([B,C]),
-%        all_different([B,E,I,N]),
-%        all_different([D,H,M]),
-%        all_different([G,L]),
-%        all_different([C,E,H,L]),
-%        all_different([F,I,M]),
-%        all_different([J,N]),
-%        G1 \= 0,
-%        H + I + E #= G1,   
-%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
-%
-%playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-%        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
-%        all_different([A,B,D,G,K]),
-%        all_different([A,C,F,J,O]),
-%        all_different([K,L,M,N,O]),
-%        all_different([G,H,I,J]),
-%        all_different([D,E,F]),
-%        all_different([B,C]),
-%        all_different([B,E,I,N]),
-%        all_different([D,H,M]),
-%        all_different([G,L]),
-%        all_different([C,E,H,L]),
-%        all_different([F,I,M]),
-%        all_different([J,N]),
-%        H1 \= 0,
-%        E + F + I #= H1,        
-%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
-%
-%playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-%        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
-%        all_different([A,B,D,G,K]),
-%        all_different([A,C,F,J,O]),
-%        all_different([K,L,M,N,O]),
-%        all_different([G,H,I,J]),
-%        all_different([D,E,F]),
-%        all_different([B,C]),
-%        all_different([B,E,I,N]),
-%        all_different([D,H,M]),
-%        all_different([G,L]),
-%        all_different([C,E,H,L]),
-%        all_different([F,I,M]),
-%        all_different([J,N]),
-%        I1 \= 0,
-%        I + J + F #= I1,        
-%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
-%
-%playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-%        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
-%        all_different([A,B,D,G,K]),
-%        all_different([A,C,F,J,O]),
-%        all_different([K,L,M,N,O]),
-%        all_different([G,H,I,J]),
-%        all_different([D,E,F]),
-%        all_different([B,C]),
-%        all_different([B,E,I,N]),
-%        all_different([D,H,M]),
-%        all_different([G,L]),
-%        all_different([C,E,H,L]),
-%        all_different([F,I,M]),
-%        all_different([J,N]),
-%        J1 \= 0,
-%        G + K + L #= J1,
-%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
-%
-%playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-%        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
-%        all_different([A,B,D,G,K]),
-%        all_different([A,C,F,J,O]),
-%        all_different([K,L,M,N,O]),
-%        all_different([G,H,I,J]),
-%        all_different([D,E,F]),
-%        all_different([B,C]),
-%        all_different([B,E,I,N]),
-%        all_different([D,H,M]),
-%        all_different([G,L]),
-%        all_different([C,E,H,L]),
-%        all_different([F,I,M]),
-%        all_different([J,N]),
-%        K1 \= 0,
-%        G + H + L #= K1,        
-%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
-%
-%playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-%        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
-%        all_different([A,B,D,G,K]),
-%        all_different([A,C,F,J,O]),
-%        all_different([K,L,M,N,O]),
-%        all_different([G,H,I,J]),
-%        all_different([D,E,F]),
-%        all_different([B,C]),
-%        all_different([B,E,I,N]),
-%        all_different([D,H,M]),
-%        all_different([G,L]),
-%        all_different([C,E,H,L]),
-%        all_different([F,I,M]),
-%        all_different([J,N]),
-%        L1 \= 0,
-%        L + H + M #= L1,        
-%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
-%
-%playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-%        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
-%        all_different([A,B,D,G,K]),
-%        all_different([A,C,F,J,O]),
-%        all_different([K,L,M,N,O]),
-%        all_different([G,H,I,J]),
-%        all_different([D,E,F]),
-%        all_different([B,C]),
-%        all_different([B,E,I,N]),
-%        all_different([D,H,M]),
-%        all_different([G,L]),
-%        all_different([C,E,H,L]),
-%        all_different([F,I,M]),
-%        all_different([J,N]),
-%        M1 \= 0,
-%        H + I + M #= M1,       
-%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
-%
-%playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-%        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
-%        all_different([A,B,D,G,K]),
-%        all_different([A,C,F,J,O]),
-%        all_different([K,L,M,N,O]),
-%        all_different([G,H,I,J]),
-%        all_different([D,E,F]),
-%        all_different([B,C]),
-%        all_different([B,E,I,N]),
-%        all_different([D,H,M]),
-%        all_different([G,L]),
-%        all_different([C,E,H,L]),
-%        all_different([F,I,M]),
-%        all_different([J,N]),
-%        N1 \= 0,
-%        M + N + I #= N1,       
-%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
-%
-%playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-%        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
-%        all_different([A,B,D,G,K]),
-%        all_different([A,C,F,J,O]),
-%        all_different([K,L,M,N,O]),
-%        all_different([G,H,I,J]),
-%        all_different([D,E,F]),
-%        all_different([B,C]),
-%        all_different([B,E,I,N]),
-%        all_different([D,H,M]),
-%        all_different([G,L]),
-%        all_different([C,E,H,L]),
-%        all_different([F,I,M]),
-%        all_different([J,N]),
-%        O1 \= 0,
-%        I + J + N #= O1,,        %
-%        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Value]).
-
-
 
 
 endGame(_):- 
