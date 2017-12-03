@@ -7,8 +7,8 @@ printMenu(_):- write('\n BOKU GAME - PROLOG VERSION 1.0'),
 
 
 /*Printing an entire board */
-printBoard([]).
-printBoard([X1, X2, X3, X4, X5, X6, X7, X8, X9]) :- 
+printBoard5([]).
+printBoard5([X1, X2, X3, X4, X5, X6, X7, X8, X9]) :- 
         printLine1(X1),
         printLine2(X2),
         printLine3(X3),

@@ -6,11 +6,13 @@
 % tridplayer([A,12,B,C,9,D,E,F,6,6,G,12,H,8,I,P]).
 
 :- include('print.pl').
+:- include('tridauto.pl').
 :- include('board.pl').
-?- use_module(library(system)).
-?- use_module(library(lists)).
-?- use_module(library(random)).
+:- use_module(library(system)).
+:- use_module(library(lists)).
+:- use_module(library(random)).
 :- use_module(library(clpfd)).
+
 
 trid:- 
         write('***************************************************'),nl,
@@ -25,31 +27,130 @@ trid:-
         menu(Choice).
 
 menu(Choice):- Choice == 1, 
-        tridchoose(_). 
+        write('***************************************************'),nl,
+        write('***************  Trid - Sizes   *******************'),nl,
+        write('***************************************************'),nl,
+        nl,nl,
+        nl, write('1 - 4 * 4'),
+        nl, write('2 - 5 * 5'),
+        nl, write('3 - 7 * 7'),
+        nl, write('4 - 8 * 8'),
+        nl, write('5 - Exit Game'),nl,
+        write('Choose : '),nl,nl,
+        read(ChoiceManual),
+        menusizesManual(ChoiceManual).
+
 menu(Choice):- Choice == 2, 
-        tridplayerauto(_).
+        write('***************************************************'),nl,
+        write('***************  Trid - Sizes   *******************'),nl,
+        write('***************************************************'),nl,
+        nl,nl,
+        nl, write('1 - 4 * 4'),
+        nl, write('2 - 5 * 5'),
+        nl, write('3 - 7 * 7'),
+        nl, write('4 - 8 * 8'),
+        nl, write('5 - Exit Game'),nl,
+        write('Choose : '),nl,nl,
+        read(ChoiceAuto),
+        menusizesAuto(ChoiceAuto).
 menu(Choice):- Choice == 3, 
         exit(_).
 
-tridchoose(_):- generateEmptyBoard(X),
-        printBoard(X),
-        write('write th inicial values of the variables with a number, using the list [a1,b1,b1,...] : '),nl,
-        read(Choice),
-        tridplayer(Choice).
+% menu com input
+menusizesManual(Choice):- Choice == 1, 
+        tridchoose4. 
+menusizesManual(Choice):- Choice == 2, 
+        tridchoose5.
+menusizesManual(Choice):- Choice == 3, 
+        tridchoose7. 
+menusizesManual(Choice):- Choice == 4, 
+        tridchoose8.
+menusizesManual(Choice):- Choice == 5, 
+        exit(_).
 
-tridplayer(Choice) :-
-        variables(A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Choice),
-%        variablesat([A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1],Result),
-        Value is 5,
-        playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Value]),
-        generateBoard(X,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1),
-        printBoard(X).
+% menu automatico
+menusizesAuto(Choice):- Choice == 1, 
+        autoChoose4. 
+menusizesAuto(Choice):- Choice == 2, 
+        autoChoose5.
+menusizesAuto(Choice):- Choice == 3, 
+        autoChoose7. 
+menusizesAuto(Choice):- Choice == 4, 
+        autoChoose8.
+menusizesAuto(Choice):- Choice == 5, 
+        exit(_).
 
-% retorna a lista da posição das variaveis na lista que recebe. devia ser os numeros mas pronto 
-variablesat(List, Is) :-
-        findall(N, nth1(N, List,  number(_)), Is).
+%tab 4*4
+tridchoose4:- generateEmptyBoard4(X),
+        printBoard4(X),
+        write('Escolha as variaveis em forma de lista. Ex: [A1,12,B1,C1,9,D1,E1,F1,6] : '),nl,
+        read(Choice),nl,
+        write('Escolha o valor minimo do dominio de A..O : '),nl,
+        read(MinValue),nl,
+        write('Escolha o valor maximo do dominio de A..O : '),nl,
+        read(MaxValue),nl,
+        tridplayer4(Choice,MinValue,MaxValue).
 
-variables(A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Choice):- 
+
+%tab 5*5
+tridchoose5:- generateEmptyBoard5(X),
+        printBoard5(X),
+        write('Escolha as variaveis em forma de lista. Ex: [A1,12,B1,C1,9,D1,E1,F1,6,6,G1,12,H1,8,I1,P1] : '),nl,
+        read(Choice),nl,
+        write('Escolha o valor minimo do dominio de A..O : '),nl,
+        read(MinValue),nl,
+        write('Escolha o valor maximo do dominio de A..O : '),nl,
+        read(MaxValue),nl,
+        tridplayer5(Choice,MinValue,MaxValue).
+
+%tab 7*7
+tridchoose7:- generateEmptyBoard7(X),
+        printBoard7(X),
+        write('Escolha as variaveis em forma de lista. Ex: [A1,12,B1,C1,9,D1,E1,F1,6,6,G1,12,H1,8,I1,P1] : '),nl,
+        read(Choice),nl,
+        write('Escolha o valor minimo do dominio de A..O : '),nl,
+        read(MinValue),nl,
+        write('Escolha o valor maximo do dominio de A..O : '),nl,
+        read(MaxValue),nl,
+        tridplayer7(Choice,MinValue,MaxValue).
+
+
+%tab 8*8
+tridchoose8:- generateEmptyBoard8(X),
+        printBoard8(X),
+        write('Escolha as variaveis em forma de lista. Ex: [A1,12,B1,C1,9,D1,E1,F1,6,6,G1,12,H1,8,I1,P1] : '),nl,
+        read(Choice),nl,
+        write('Escolha o valor minimo do dominio de A..O : '),nl,
+        read(MinValue),nl,
+        write('Escolha o valor maximo do dominio de A..O : '),nl,
+        read(MaxValue),nl,
+        tridplayer8(Choice,MinValue,MaxValue).
+
+
+tridplayer4(Choice,MinValue,MaxValue) :-
+        variables4(A1,B1,C1,D1,E1,F1,G1,H1,I1,Choice),
+        playGame4([A,B,C,D,E,F,G,H,I,J,A1,B1,C1,D1,E1,F1,G1,H1,I1,MinValue,MaxValue]),
+        generateBoard4(X,A,B,C,D,E,F,G,H,I,J,A1,B1,C1,D1,E1,F1,G1,H1,I1),
+        printBoard4(X).
+
+tridplayer5(Choice,MinValue,MaxValue) :-
+        variables5(A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Choice),
+        playGame5([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,MinValue,MaxValue]),
+        generateBoard5(X,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1),
+        printBoard5(X).
+
+variables4(A1,B1,C1,D1,E1,F1,G1,H1,I1,Choice):- 
+        nth1(1,Choice,A1),
+        nth1(2,Choice,B1),
+        nth1(3,Choice,C1),
+        nth1(4,Choice,D1),
+        nth1(5,Choice,E1),
+        nth1(6,Choice,F1),
+        nth1(7,Choice,G1),
+        nth1(8,Choice,H1),
+        nth1(9,Choice,I1).
+
+variables5(A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Choice):- 
         nth1(1,Choice,A1),
         nth1(2,Choice,B1),
         nth1(3,Choice,C1),
@@ -68,8 +169,33 @@ variables(A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Choice):-
         nth1(16,Choice,P1).
 
 
-playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Value]) :-
-        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],1,Value),
+playGame4([A,B,C,D,E,F,G,H,I,J,A1,B1,C1,D1,E1,F1,G1,H1,I1,MinValue,MaxValue]) :-
+        domain([A,B,C,D,E,F,G,H,I,J],MinValue,MaxValue),
+        all_different([A,B,D,G,K]),
+        all_different([A,C,F,J,O]),
+        all_different([K,L,M,N,O]),
+        all_different([G,H,I,J]),
+        all_different([D,E,F]),
+        all_different([B,C]),
+        all_different([B,E,I,N]),
+        all_different([D,H,M]),
+        all_different([G,L]),
+        all_different([C,E,H,L]),
+        all_different([F,I,M]),
+        all_different([J,N]),
+        A + B + C #= A1, 
+        D + B + E #= B1,
+        C + B + E #= C1,
+        C + F + E #= D1,
+        G + D + H #= E1,
+        D + E + H #= F1,
+        H + E + I #= G1,
+        I + F + E #= H1,
+        I + J + F #= I1,   
+        labeling([],[A,B,C,D,E,F,G,H,I,J]).
+
+playGame5([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,MinValue,MaxValue]) :-
+        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O],MinValue,MaxValue),
         all_different([A,B,D,G,K]),
         all_different([A,C,F,J,O]),
         all_different([K,L,M,N,O]),
@@ -100,43 +226,6 @@ playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N
         O + J + N #= P1,       
         labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O]).
 
-% preenche todo o tabuleiro de jogo com uma solução possível
-tridplayerauto(_) :-
-        Value is 5,
-        playGame([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Value]),
-        generateBoard(X,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1),
-        printBoard(X).
-
-playGameauto([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,Value]) :-
-        domain([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1],1,Value),
-        all_different([A,B,D,G,K]),
-        all_different([A,C,F,J,O]),
-        all_different([K,L,M,N,O]),
-        all_different([G,H,I,J]),
-        all_different([D,E,F]),
-        all_different([B,C]),
-        all_different([B,E,I,N]),
-        all_different([D,H,M]),
-        all_different([G,L]),
-        all_different([C,E,H,L]),
-        all_different([F,I,M]),
-        all_different([J,N]),
-        A + B + C #= A1, 
-        D + B + E #= B1,
-        C + B + E #= C1,
-        C + F + E #= D1,
-        G + D + H #= E1,
-        D + E + H #= F1,
-        H + E + I #= G1,
-        I + F + E #= H1,
-        I + J + E #= I1,
-        G + K + L #= J1,
-        G + H + L #= K1,
-        L + H + M #= L1,
-        M + H + I #= M1,       
-        M + N + I #= N1,       
-        I + J + N #= O1,       
-        labeling([],[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1]).
 
 
 endGame(_):- 
