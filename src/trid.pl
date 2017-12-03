@@ -134,7 +134,7 @@ tridplayer4(Choice,MinValue,MaxValue) :-
         write('A resolver o problema...'),nl,
         sleep(1),
         playGame4([A,B,C,D,E,F,G,H,I,J,A1,B1,C1,D1,E1,F1,G1,H1,I1,MinValue,MaxValue]),
-        generateBoard4(X,[A,B,C,D,E,F,G,H,I,J,A1,B1,C1,D1,E1,F1,G1,H1,I1]),
+        generateBoard4(X,[A,B,C,D,E,F,G,H,I,J,A1,B1,C1,D1,E1,F1,G1,H1,I1,MinValue,MaxValue]),
         printBoard4(X).
 
 tridplayer5(Choice,MinValue,MaxValue) :-
@@ -142,7 +142,7 @@ tridplayer5(Choice,MinValue,MaxValue) :-
         write('A resolver o problema...'),nl,
         sleep(1),
         playGame5([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,MinValue,MaxValue]),
-        generateBoard5(X,[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1]),
+        generateBoard5(X,[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,MinValue,MaxValue]),
         printBoard5(X).
 
 tridplayer7(Choice,MinValue,MaxValue) :-
@@ -155,7 +155,7 @@ tridplayer7(Choice,MinValue,MaxValue) :-
                    HH1,II1,JJ1,MinValue,MaxValue]),
         generateBoard7(XBoard,[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,AA,BB,A1,B1,C1,D1,E1,F1,
                                G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Q1,R1,S1,T1,U1,V1,W1,X1,Y1,Z1,AA1,BB1,CC1,DD1,EE1,FF1,GG1,
-                               HH1,II1,JJ1]),
+                               HH1,II1,JJ1,MinValue,MaxValue]),
         printBoard7(XBoard).
 
 tridplayer8(Choice,MinValue,MaxValue) :-
@@ -168,7 +168,7 @@ tridplayer8(Choice,MinValue,MaxValue) :-
                    HH1,II1,JJ1, KK1,LL1,MM1,NN1,OO1,PP1,QQ1,RR1,SS1,TT1,UU1,VV1,WW1,MinValue,MaxValue]),
         generateBoard8(XBoard,[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,AA,BB,CC,DD,EE,FF,GG,HH,II,JJ,A1,B1,C1,D1,E1,F1,
                                G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Q1,R1,S1,T1,U1,V1,W1,X1,Y1,Z1,AA1,BB1,CC1,DD1,EE1,FF1,GG1,
-                               HH1,II1,JJ1, KK1,LL1,MM1,NN1,OO1,PP1,QQ1,RR1,SS1,TT1,UU1,VV1,WW1]),
+                               HH1,II1,JJ1, KK1,LL1,MM1,NN1,OO1,PP1,QQ1,RR1,SS1,TT1,UU1,VV1,WW1,MinValue,MaxValue]),
         printBoard8(XBoard).
 
 variables4(A1,B1,C1,D1,E1,F1,G1,H1,I1,Choice):- 
