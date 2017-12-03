@@ -2,7 +2,7 @@
    * para correr o jogo e' consultar este ficheiro e fazer start(X). *
    *******************************/
 
-% tridplayer([0,12,0,0,9,0,0,0,6,6,0,12,0,8,0,0]).
+% tridplayer([A,12,B,C,9,D,E,F,6]).
 % tridplayer([A,12,B,C,9,D,E,F,6,6,G,12,H,8,I,P]).
 
 :- include('print.pl').
@@ -106,7 +106,8 @@ tridchoose5:- generateEmptyBoard5(X),
 %tab 7*7
 tridchoose7:- generateEmptyBoard7(X),
         printBoard7(X),
-        write('Escolha as variaveis em forma de lista. Ex: [A1,12,B1,C1,9,D1,E1,F1,6,6,G1,12,H1,8,I1,P1] : '),nl,
+        write('Escolha as variaveis em forma de lista. Nao foi testado por ser uma lista muito grande : '),nl,
+        write('Obs: deve Jogar no modo automatico '),nl,
         read(Choice),nl,
         write('Escolha o valor minimo do dominio de A..O : '),nl,
         read(MinValue),nl,
@@ -118,7 +119,8 @@ tridchoose7:- generateEmptyBoard7(X),
 %tab 8*8
 tridchoose8:- generateEmptyBoard8(X),
         printBoard8(X),
-        write('Escolha as variaveis em forma de lista. Ex: [A1,12,B1,C1,9,D1,E1,F1,6,6,G1,12,H1,8,I1,P1] : '),nl,
+        write('Escolha as variaveis em forma de lista. Nao foi testado por ser uma lista muito grande : '),nl,
+        write('Obs: deve Jogar no modo automatico '),nl,
         read(Choice),nl,
         write('Escolha o valor minimo do dominio de A..O : '),nl,
         read(MinValue),nl,
