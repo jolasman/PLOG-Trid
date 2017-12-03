@@ -1,7 +1,7 @@
 
 
 /*board generation 4*4*/
-generateBoard4(X,A,B,C,D,E,F,G,H,I,J,A1,B1,C1,D1,E1,F1,G1,H1,I1) :- X = [ 
+generateBoard4(X,[A,B,C,D,E,F,G,H,I,J,A1,B1,C1,D1,E1,F1,G1,H1,I1,_,_]) :- X = [ 
                              ['   (',A,')   '],
                                 ['     ',A1,'    '], 
                          ['(',B,')', '(',C,')'],
@@ -24,7 +24,7 @@ generateEmptyBoard4(X) :- X = [
 
 
 /*board generation 5*5*/
-generateBoard5(X,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1) :- X = [ 
+generateBoard5(X,[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,_,_]) :- X = [ 
                              ['   (',A,')   '],
                                 ['     ',A1,'    '], 
                          ['(',B,')', '(',C,')'],
@@ -51,9 +51,9 @@ generateEmptyBoard5(X) :- X = [
 
 
 /*board generation 7*7*/
-generateBoard7(XBoard,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,AA,BB,A1,B1,C1,D1,E1,F1,
+generateBoard7(XBoard,[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,AA,BB,A1,B1,C1,D1,E1,F1,
                G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Q1,R1,S1,T1,U1,V1,W1,X1,Y1,Z1,AA1,BB1,CC1,DD1,EE1,FF1,GG1,
-               HH1,II1,JJ1) :- XBoard = [ 
+               HH1,II1,JJ1,_,_]) :- XBoard = [ 
                              ['   (',A,')   '],
                                 ['     ',A1,'    '], 
                          ['(',B,')', '(',C,')'],
@@ -88,9 +88,9 @@ generateEmptyBoard7(X) :- X = [
 
 
 /*board generation 8*8*/
-generateBoard8(XBoard,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,AA,BB,CC,DD,EE,FF,GG,HH,II,JJ,A1,B1,C1,D1,E1,F1,
+generateBoard8(XBoard,[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,AA,BB,CC,DD,EE,FF,GG,HH,II,JJ,A1,B1,C1,D1,E1,F1,
                G1,H1,I1,J1,K1,L1,M1,N1,O1,P1,Q1,R1,S1,T1,U1,V1,W1,X1,Y1,Z1,AA1,BB1,CC1,DD1,EE1,FF1,GG1,
-               HH1,II1,JJ1, KK1,LL1,MM1,NN1,OO1,PP1,QQ1,RR1,SS1,TT1,UU1,VV1,WW1) :- XBoard = [ 
+               HH1,II1,JJ1, KK1,LL1,MM1,NN1,OO1,PP1,QQ1,RR1,SS1,TT1,UU1,VV1,WW1,_,_]) :- XBoard = [ 
                              ['   (',A,')   '],
                                 ['     ',A1,'    '], 
                          ['(',B,')', '(',C,')'],
