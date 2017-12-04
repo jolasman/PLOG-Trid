@@ -8,7 +8,6 @@
 :- include('print.pl').
 :- include('tridauto.pl').
 :- include('generictrid.pl').
-:- include('board.pl').
 :- use_module(library(system)).
 :- use_module(library(lists)).
 :- use_module(library(random)).

@@ -18,45 +18,71 @@ genericChoose:-
 
 
 tridplayerGeneric(MinValue,MaxValue,TridSize) :-
-        generateVariablesList(TridSize,VariablesList,1),
+        count(TridSize,Total),
+        length(VariablesList,Total),
         TridSizemenos1 is TridSize - 1,
-        generateTrianglesList(TridSizemenos1,TrianglesList,1),
+        countp(TridSizemenos1,TotalTri),
+        length(TrianglesList,TotalTri),
         Values = [MinValue,MaxValue],
         playGameGenericAuto(VariablesList,TrianglesList,Values,TridSize),
+        write(VariablesList),nl,
+        generateVariablesListFrom(VariablesList,1,RV,TridSize),
         randomvalues(R1,R2,R3,R4,TridSize),
         nth1(R1,TrianglesList,Valor1),
         nth1(R2,TrianglesList,Valor2),
         nth1(R3,TrianglesList,Valor3),
-        nth1(R4,TrianglesList,Valor4),!,
-        generateVariablesList(TridSize,VariablesListPlay,1),
-        TridSizemenos1 is TridSize - 1,
-        generateTrianglesList(TridSizemenos1,TrianglesListPlay,1),
+        nth1(R4,TrianglesList,Valor4),    
         
-        
+        length(VariablesListPlay,Total),
+        length(TrianglesListPlay,TotalTri),
+
         replaceInThePosition(TrianglesListPlay, R1, Valor1, RList),
         replaceInThePosition(TrianglesListPlay, R2, Valor2, RList),
         replaceInThePosition(TrianglesListPlay, R3, Valor3, RList),
         replaceInThePosition(TrianglesListPlay, R4, Valor4, RList),
+        
+        generateTrianglesListFrom(RList,1,RT,TridSizemenos1),
+        
         write('A gerar problema...'),nl,nl,   
         sleep(1),
-        printBoard(VariablesListPlay,RList),   
+        printBoard(RV,RT),   
         write('A resolver o problema...'),nl,nl,   
         sleep(1),
         playGameGeneric(VariablesListPlay,RList,Values,TridSize),
-        printBoard(VariablesListPlay,RList).
+        generateVariablesListFrom(VariablesListPlay,1,RV1,TridSize),
+        generateTrianglesListFrom(RList,1,RT1,TridSizemenos1),
+        printBoard(RV1,RT1), write('acabei').
 
 
-
-
-
-
-playGameGenericAuto([Vertices],[Triangles],[MinValue,MaxValue], TamanhoTrid) :-
+playGameGenericAuto(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :- write('play auto'),nl,
         domain(Vertices,MinValue,MaxValue),
         %        lineRestrictions(Vertices,Triangles),
+
+        write(Vertices),nl,
+        write(Triangles),nl,
         TamanhoTridMenos1 is TamanhoTrid - 1,
-        restricoes(Vertices,Triangles,TamanhoTridMenos1),
-        append(Vertices,Triangles,Result),
-        labeling([],[Result]).
+        generateVariablesListFrom(Vertices,1,RV,TamanhoTrid),
+        generateTrianglesListFrom(Triangles,1,RT,TamanhoTridMenos1),
+        write(RV),nl,
+        write(RT),nl,
+        restricoes(RV,RT,TamanhoTridMenos1),
+        write('fez restricoes'),nl,
+        labeling([],Vertices).
+
+playGameGeneric(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :- write('play generic'),nl,
+        domain(Vertices,MinValue,MaxValue),
+        %        lineRestrictions(Vertices,Triangles),
+
+        TamanhoTridMenos1 is TamanhoTrid - 1,
+        generateVariablesListFrom(Vertices,1,RV,TamanhoTrid),
+        generateTrianglesListFrom(Triangles,1,RT,TamanhoTridMenos1),
+        write('estou a fazer'),nl,
+        write(RV),nl,
+        write(RT),nl,!,
+        restricoes(RV,RT,TamanhoTridMenos1),
+        write('fez restricoes'),nl,
+        labeling([],Vertices).
+
 
 %lineRestrictions(Vertices,Triangles):-
 
@@ -85,40 +111,43 @@ restrictions(Vertices,Triangles, N):- write('entrou'),
 
 restrictionsAux([],[],[],_,_).
 restrictionsAux([A,B|TVerticesN],[C,D|TVerticesN1], [A1,B1|TListaTriangles],X, Tinicial):- Tinicial < X,
-        %        A+C+D #= A1,
-        %        A+B+D #= B1,
+        A+C+D #= A1,
+        A+B+D #= B1,
         Tinicial1 is Tinicial + 2,
-
-        write(Tinicial1),nl,
-        write(X),nl,
-
-        write(A),
-        write('+'),
-        write(C),
-        write('+'),
-        write(D),
-        write('='),
-        write(A1),nl,nl,
-        write(A),
-        write('+'),
-        write(B),
-        write('+'),
-        write(D),
-        write('='),
-        write(B1),nl,nl,
-
         restrictionsAux([B|TVerticesN],[D|TVerticesN1],TListaTriangles,X, Tinicial1).
 
 restrictionsAux([A|_],[C,D|_], [A1|_],X, Tinicial):- Tinicial == X,
-        %        A+C+D #= A1,
-        write('auxfinal'),nl,
-        write(A),
-        write('+'),
-        write(C),
-        write('+'),
-        write(D),
-        write('='),
-        write(A1),nl,nl.
+        A+C+D #= A1.
+
+%----------------------------
+
+%generateVariablesListFrom([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],1,R,5).
+generateVariablesListFrom([], _, [],_).
+generateVariablesListFrom(L, N, [DL|DLTail],Size) :-
+        length(DL, N),
+        append(DL, LTail, L),
+        N1 is N + 1,
+        generateVariablesListFrom(LTail, N1, DLTail,Size).
+
+generateTrianglesListFrom([], _, [],_).
+generateTrianglesListFrom(L, 1, [DL|DLTail],Size) :-
+        length(DL, 1),
+        append(DL, LTail, L),
+        generateTrianglesListFrom(LTail, 2, DLTail,Size).
+
+%generateTrianglesListFrom([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],1,R,4).
+generateTrianglesListFrom(L, N, [DL|DLTail],Sizemenos1) :-
+        N1 is N - 1,
+        SizeT is 2*N1 + 1,     
+        length(DL, SizeT),
+        append(DL, LTail, L),
+        NR is N + 1,
+        generateTrianglesListFrom(LTail, NR, DLTail,Sizemenos1).
+
+
+
+
+%----------------------------------
 
 
 %test:- generateVariablesList(5,VariablesList,1), write(VariablesList).
@@ -141,3 +170,12 @@ generateTrianglesList(TridSizemenos1,[Head|Tail],N):- Nimpar is N - 1,
         N1 is N + 1,
         generateTrianglesList(TridSizemenos1,Tail,N1).
 
+count(0,0).
+count(TridSize,R):- New is TridSize - 1,
+        count(New,R1),
+        R is R1 + TridSize.
+
+countp(0,0).
+countp(TridSizemenos1,R):- New is TridSizemenos1 - 1,
+        countp(New,R1),
+        R is R1 + 2*New +1.

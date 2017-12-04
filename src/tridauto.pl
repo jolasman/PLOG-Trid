@@ -4,8 +4,7 @@
 %playGameauto([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,12,B1,C1,9,D1,E1,F1,6,6,G1,12,H1,8,I1,P1,1,5]).
 
 %tab 5*5
-autoChoose5:- generateEmptyBoard5(X),
-        printBoard5(X),
+autoChoose5:-printBoard5(X),
         write('Choose the MinValue: '),nl,
         read(MinValue),
         write('Choose the MaxValue: '),nl,
