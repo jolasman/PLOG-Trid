@@ -6,63 +6,61 @@
 
 
 %tab 5*5
-autoChoose:- generateEmptyBoard(X),
-        printBoard(X),
+genericChoose:- 
+        write('Choose the Game Size: '),nl,
+        read(TridSize),
         write('Choose the MinValue: '),nl,
         read(MinValue),
         write('Choose the MaxValue: '),nl,
         read(MaxValue),
-        tridplayerauto(MinValue,MaxValue).
+        tridplayerGeneric(MinValue,MaxValue,TridSize).
 
 
 
-% gera um numero aleatorio de entre a lista de A1..P1, depois resolve o problema com base nesse valor
-
-
-tridplayerauto(MinValue,MaxValue) :-
-        length(List31,31),
+tridplayerGeneric(MinValue,MaxValue,TridSize) :-
+        generateVariablesList(TridSize,VariablesList,1),
+        TridSizemenos1 is TridSize - 1,
+        generateTrianglesList(TridSizemenos1,TrianglesList,1),
         Values = [MinValue,MaxValue],
-        append(List31,Values,Listaauto),
-        playGameauto5(Listaauto),
-        randomvalues(R1,R2,R3,R4),
-        nth1(R1,Listaauto,Valor1),
-        nth1(R2,Listaauto,Valor2),
-        nth1(R3,Listaauto,Valor3),
-        nth1(R4,Listaauto,Valor4),!,
-        length(List1,15),
-        length(List2,16),
-        List3 = [MinValue,MaxValue],
-        R1P is R1 - 16,
-        R2P is R2 - 16,
-        R3P is R3 - 16,
-        R4P is R4 - 16,
-        replaceInThePosition(List2, R1P, Valor1, RList),
-        replaceInThePosition(List2, R2P, Valor2, RList),
-        replaceInThePosition(List2, R3P, Valor3, RList),
-        replaceInThePosition(List2, R4P, Valor4, RList),
-        append(List1,RList,LR),       
-        append(LR,List3,List), !,
+        playGameGenericAuto(VariablesList,TrianglesList,Values,TridSize),
+        randomvalues(R1,R2,R3,R4,TridSize),
+        nth1(R1,TrianglesList,Valor1),
+        nth1(R2,TrianglesList,Valor2),
+        nth1(R3,TrianglesList,Valor3),
+        nth1(R4,TrianglesList,Valor4),!,
+        generateVariablesList(TridSize,VariablesListPlay,1),
+        TridSizemenos1 is TridSize - 1,
+        generateTrianglesList(TridSizemenos1,TrianglesListPlay,1),
+        
+        
+        replaceInThePosition(TrianglesListPlay, R1, Valor1, RList),
+        replaceInThePosition(TrianglesListPlay, R2, Valor2, RList),
+        replaceInThePosition(TrianglesListPlay, R3, Valor3, RList),
+        replaceInThePosition(TrianglesListPlay, R4, Valor4, RList),
         write('A gerar problema...'),nl,nl,   
         sleep(1),
-        generateBoard(X1,List),
+        generateBoard(X1,VariablesListPlay,RList),
         printBoard(X1),   
         write('A resolver o problema...'),nl,nl,   
         sleep(1),
-        playGameGeneric(List),
-        generateBoard(X,List),
+        playGameGeneric(VariablesListPlay,RList,Values,TridSize),
+        generateBoard(X,VariablesListPlay,RList),
         printBoard(X).
+
+
+
+
 
 
 playGameGenericAuto([Vertices],[Triangles],[MinValue,MaxValue], TamanhoTrid) :-
         domain(Vertices,MinValue,MaxValue),
-        lineRestrictions(Vertices,Triangles),
+        %        lineRestrictions(Vertices,Triangles),
         TamanhoTridMenos1 is TamanhoTrid - 1,
         restricoes(Vertices,Triangles,TamanhoTridMenos1),
         append(Vertices,Triangles,Result),
         labeling([],[Result]).
 
 %lineRestrictions(Vertices,Triangles):-
-
 
 %    restricoes([['A'],['B','C'],['D','E','F'],['G','H','I','J']],[['A1'],['B1','C1','D1'],['E1','F1','G1','H1','I1']],3).    
 %    restricoes([['A'],['B','C'],['D','E','F'],['G','H','I','J'], ['K','L','M','N','O']],[['A1'],['B1','C1','D1'],['E1','F1','G1','H1','I1'], ['J1','k1','L1','M1','N1','O1','P1']],4).    
@@ -89,13 +87,13 @@ restrictions(Vertices,Triangles, N):- write('entrou'),
 
 restrictionsAux([],[],[],_,_).
 restrictionsAux([A,B|TVerticesN],[C,D|TVerticesN1], [A1,B1|TListaTriangles],X, Tinicial):- Tinicial < X,
-%        A+C+D #= A1,
-%        A+B+D #= B1,
+        %        A+C+D #= A1,
+        %        A+B+D #= B1,
         Tinicial1 is Tinicial + 2,
 
         write(Tinicial1),nl,
         write(X),nl,
-        
+
         write(A),
         write('+'),
         write(C),
@@ -114,7 +112,7 @@ restrictionsAux([A,B|TVerticesN],[C,D|TVerticesN1], [A1,B1|TListaTriangles],X, T
         restrictionsAux([B|TVerticesN],[D|TVerticesN1],TListaTriangles,X, Tinicial1).
 
 restrictionsAux([A|_],[C,D|_], [A1|_],X, Tinicial):- Tinicial == X,
-%        A+C+D #= A1,
+        %        A+C+D #= A1,
         write('auxfinal'),nl,
         write(A),
         write('+'),
@@ -125,5 +123,23 @@ restrictionsAux([A|_],[C,D|_], [A1|_],X, Tinicial):- Tinicial == X,
         write(A1),nl,nl.
 
 
+%test:- generateVariablesList(5,VariablesList,1), write(VariablesList).
+generateVariablesList(X,[Head|[]],X):-length(Head,X).
+generateVariablesList(TridSize,[Head|Tail],N):- length(Head,N),
+        N1 is N + 1,
+        generateVariablesList(TridSize,Tail,N1).
 
+%test:- generateTrianglesList(4,VariablesList,1), write(VariablesList).
+generateTrianglesList(X,[Head|[]],X):- Nimpar is X - 1,
+        Size is 2*Nimpar + 1,
+        length(Head,Size).
+
+generateTrianglesList(TridSizemenos1,[Head|Tail],1):- length(Head,1),
+        generateTrianglesList(TridSizemenos1,Tail,2).
+
+generateTrianglesList(TridSizemenos1,[Head|Tail],N):- Nimpar is N - 1,
+        Size is 2*Nimpar + 1,
+        length(Head,Size),
+        N1 is N + 1,
+        generateTrianglesList(TridSizemenos1,Tail,N1).
 
