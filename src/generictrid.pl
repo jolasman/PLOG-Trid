@@ -39,13 +39,11 @@ tridplayerGeneric(MinValue,MaxValue,TridSize) :-
         replaceInThePosition(TrianglesListPlay, R4, Valor4, RList),
         write('A gerar problema...'),nl,nl,   
         sleep(1),
-        generateBoard(X1,VariablesListPlay,RList),
-        printBoard(X1),   
+        printBoard(VariablesListPlay,RList),   
         write('A resolver o problema...'),nl,nl,   
         sleep(1),
         playGameGeneric(VariablesListPlay,RList,Values,TridSize),
-        generateBoard(X,VariablesListPlay,RList),
-        printBoard(X).
+        printBoard(VariablesListPlay,RList).
 
 
 
