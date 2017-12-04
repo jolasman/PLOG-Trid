@@ -65,6 +65,7 @@ playGameGenericAuto([Vertices],[Triangles],[MinValue,MaxValue], TamanhoTrid) :-
 
 
 %    restricoes([['A'],['B','C'],['D','E','F'],['G','H','I','J']],[['A1'],['B1','C1','D1'],['E1','F1','G1','H1','I1']],3).    
+%    restricoes([['A'],['B','C'],['D','E','F'],['G','H','I','J'], ['K','L','M','N','O']],[['A1'],['B1','C1','D1'],['E1','F1','G1','H1','I1'], ['J1','k1','L1','M1','N1','O1','P1']],4).    
 restricoes(_,_,0).
 restricoes(Vertices,Triangles,TamanhoTridMenos1):- restrictions(Vertices,Triangles,TamanhoTridMenos1),
         Aux is TamanhoTridMenos1 - 1,
