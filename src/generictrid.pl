@@ -48,30 +48,81 @@ tridplayerauto(MinValue,MaxValue) :-
         printBoard(X1),   
         write('A resolver o problema...'),nl,nl,   
         sleep(1),
-        playGame(List),
+        playGameGeneric(List),
         generateBoard(X,List),
         printBoard(X).
 
 
-
-/*
-   L is the current list,
-   P is the position where the element will be insert,
-   E is the element to insert and
-   R is the return, the new list
-*/
-
-
-
-playGameGeneric([Vertices],[Triangles],[MinValue,MaxValue]) :-
+playGameGenericAuto([Vertices],[Triangles],[MinValue,MaxValue], TamanhoTrid) :-
         domain(Vertices,MinValue,MaxValue),
-
-
-
-
-
-
-
+        lineRestrictions(Vertices,Triangles),
+        TamanhoTridMenos1 is TamanhoTrid - 1,
+        restricoes(Vertices,Triangles,TamanhoTridMenos1),
         append(Vertices,Triangles,Result),
         labeling([],[Result]).
+
+%lineRestrictions(Vertices,Triangles):-
+
+
+%    restricoes([['A'],['B','C'],['D','E','F'],['G','H','I','J']],[['A1'],['B1','C1','D1'],['E1','F1','G1','H1','I1']],3).    
+restricoes(_,_,0).
+restricoes(Vertices,Triangles,TamanhoTridMenos1):- restrictions(Vertices,Triangles,TamanhoTridMenos1),
+        Aux is TamanhoTridMenos1 - 1,
+        restricoes(Vertices,Triangles,Aux).
+
+%       restrictions([['A'],['B','C'],['D','E','F'],['G','H','I','J']],[['A1'],['B1','C1','D1'],['E1','F1','G1','H1','I1']],2).    
+restrictions([Hvertices,H2ver|_],[Htriangles|_], 1):- 
+        nth1(1,Hvertices,A),
+        nth1(1,H2ver,B),
+        nth1(2,H2ver,C),
+        nth1(1,Htriangles,A1),
+        A+B+C #= A1.
+
+restrictions(Vertices,Triangles, N):- write('entrou'),
+        nth1(N,Vertices,ListaVerticesN),
+        N1 is N + 1,
+        nth1(N1,Vertices,ListaVerticesN1),
+        nth1(N,Triangles,ListaTriangles),
+        length(ListaTriangles,X),
+        restrictionsAux(ListaVerticesN,ListaVerticesN1, ListaTriangles,X, 1).   
+
+restrictionsAux([],[],[],_,_).
+restrictionsAux([A,B|TVerticesN],[C,D|TVerticesN1], [A1,B1|TListaTriangles],X, Tinicial):- Tinicial < X,
+%        A+C+D #= A1,
+%        A+B+D #= B1,
+        Tinicial1 is Tinicial + 2,
+
+        write(Tinicial1),nl,
+        write(X),nl,
+        
+        write(A),
+        write('+'),
+        write(C),
+        write('+'),
+        write(D),
+        write('='),
+        write(A1),nl,nl,
+        write(A),
+        write('+'),
+        write(B),
+        write('+'),
+        write(D),
+        write('='),
+        write(B1),nl,nl,
+
+        restrictionsAux([B|TVerticesN],[D|TVerticesN1],TListaTriangles,X, Tinicial1).
+
+restrictionsAux([A|_],[C,D|_], [A1|_],X, Tinicial):- Tinicial == X,
+%        A+C+D #= A1,
+        write('auxfinal'),nl,
+        write(A),
+        write('+'),
+        write(C),
+        write('+'),
+        write(D),
+        write('='),
+        write(A1),nl,nl.
+
+
+
 
