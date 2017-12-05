@@ -6,7 +6,6 @@
 % tridplayer([A,12,B,C,9,D,E,F,6,6,G,12,H,8,I,P]).
 
 :- include('print.pl').
-:- include('tridauto.pl').
 :- include('generictrid.pl').
 :- use_module(library(system)).
 :- use_module(library(lists)).
