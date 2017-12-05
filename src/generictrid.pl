@@ -1,11 +1,6 @@
 :- use_module(library(clpfd)).
 :- use_module(library(random)).
 
-%playGameauto([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,A1,12,B1,C1,9,D1,E1,F1,6,6,G1,12,H1,8,I1,P1,1,5]).
-
-
-
-%tab 5*5
 genericChoose:- 
         write('Choose the Game Size: '),nl,
         read(TridSize),
@@ -15,76 +10,92 @@ genericChoose:-
         read(MaxValue),
         tridplayerGeneric(MinValue,MaxValue,TridSize).
 
-
-
 tridplayerGeneric(MinValue,MaxValue,TridSize) :-
         count(TridSize,Total),
         length(VariablesList,Total),
+        length(VariablesList1,Total),
         TridSizemenos1 is TridSize - 1,
         countp(TridSizemenos1,TotalTri),
         length(TrianglesList,TotalTri),
         Values = [MinValue,MaxValue],
+       
         playGameGenericAuto(VariablesList,TrianglesList,Values,TridSize),
-        write(VariablesList),nl,
-        generateVariablesListFrom(VariablesList,1,RV,TridSize),
+        write(TrianglesList),nl,
+        
         randomvalues(R1,R2,R3,R4,TridSize),
         nth1(R1,TrianglesList,Valor1),
         nth1(R2,TrianglesList,Valor2),
         nth1(R3,TrianglesList,Valor3),
-        nth1(R4,TrianglesList,Valor4),    
-        
+        nth1(R4,TrianglesList,Valor4),
+        update(R1,R2,R3,R4,C1,C2,C3,C4),
+              
         length(VariablesListPlay,Total),
         length(TrianglesListPlay,TotalTri),
-
-        replaceInThePosition(TrianglesListPlay, R1, Valor1, RList),
-        replaceInThePosition(TrianglesListPlay, R2, Valor2, RList),
-        replaceInThePosition(TrianglesListPlay, R3, Valor3, RList),
-        replaceInThePosition(TrianglesListPlay, R4, Valor4, RList),
-        
+        replaceInThePosition(TrianglesListPlay, C1, Valor1, RList),
+        replaceInThePosition(TrianglesListPlay, C2, Valor2, RList),
+        replaceInThePosition(TrianglesListPlay, C3, Valor3, RList),
+        replaceInThePosition(TrianglesListPlay, C4, Valor4, RList),
         generateTrianglesListFrom(RList,1,RT,TridSizemenos1),
-        
         write('A gerar problema...'),nl,nl,   
         sleep(1),
+        generateVariablesListFrom(VariablesList1,1,RV,TridSize),
         printBoard(RV,RT),   
         write('A resolver o problema...'),nl,nl,   
-        sleep(1),
+        sleep(1),!,
         playGameGeneric(VariablesListPlay,RList,Values,TridSize),
         generateVariablesListFrom(VariablesListPlay,1,RV1,TridSize),
         generateTrianglesListFrom(RList,1,RT1,TridSizemenos1),
-        printBoard(RV1,RT1), write('acabei').
+        printBoard(RV1,RT1).
 
-
-playGameGenericAuto(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :- write('play auto'),nl,
+playGameGenericAuto(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :-
         domain(Vertices,MinValue,MaxValue),
-        %        lineRestrictions(Vertices,Triangles),
-
-        write(Vertices),nl,
-        write(Triangles),nl,
         TamanhoTridMenos1 is TamanhoTrid - 1,
         generateVariablesListFrom(Vertices,1,RV,TamanhoTrid),
         generateTrianglesListFrom(Triangles,1,RT,TamanhoTridMenos1),
         write(RV),nl,
         write(RT),nl,
         restricoes(RV,RT,TamanhoTridMenos1),
-        write('fez restricoes'),nl,
+        lineRestrictions(RV),
         labeling([],Vertices).
 
 playGameGeneric(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :- write('play generic'),nl,
         domain(Vertices,MinValue,MaxValue),
-        %        lineRestrictions(Vertices,Triangles),
-
         TamanhoTridMenos1 is TamanhoTrid - 1,
         generateVariablesListFrom(Vertices,1,RV,TamanhoTrid),
         generateTrianglesListFrom(Triangles,1,RT,TamanhoTridMenos1),
         write('estou a fazer'),nl,
         write(RV),nl,
-        write(RT),nl,!,
+        write(RT),nl,
         restricoes(RV,RT,TamanhoTridMenos1),
-        write('fez restricoes'),nl,
+        lineRestrictions(RV),
+        write('fez restricoes'),nl,!,
         labeling([],Vertices).
 
+%c:- allfirsts([['A'],['B','C'],['D','E','F'],['G','H','I','J'], ['K','L','M','N','O']], Rs), write(Rs).
+allfirsts(Ls, Rs) :-
+        maplist(member, Rs, Ls).
 
-%lineRestrictions(Vertices,Triangles):-
+%l:- allLinesDistinct([['A'],['B','C'],['D','E','F'],['G','H','I','J'], ['K','L','M','N','O']]).
+allLinesDistinct([]).
+allLinesDistinct([Head|Tail]):- all_different(Head),
+        allLinesDistinct(Tail). 
+
+
+%f:- allfinals([['A'],['B','C'],['D','E','F'],['G','H','I','J'], ['K','L','M','N','O']], Rs), write(Rs).
+allfinals([],[]).
+allfinals([Head|Tail],[H|T]):-
+        length(Head,SizeH),
+        nth1(SizeH,Head,H),
+        allfinals(Tail,T).
+
+lineRestrictions(Vertices):-
+        allfirsts(Vertices,ResultF),
+        all_different(ResultF),
+        allLinesDistinct(Vertices),
+        allfinals(Vertices,ResultFinals),
+        all_different(ResultFinals).
+
+
 
 %    restricoes([['A'],['B','C'],['D','E','F'],['G','H','I','J']],[['A1'],['B1','C1','D1'],['E1','F1','G1','H1','I1']],3).    
 %    restricoes([['A'],['B','C'],['D','E','F'],['G','H','I','J'], ['K','L','M','N','O']],[['A1'],['B1','C1','D1'],['E1','F1','G1','H1','I1'], ['J1','k1','L1','M1','N1','O1','P1']],4).    
@@ -144,9 +155,6 @@ generateTrianglesListFrom(L, N, [DL|DLTail],Sizemenos1) :-
         NR is N + 1,
         generateTrianglesListFrom(LTail, NR, DLTail,Sizemenos1).
 
-
-
-
 %----------------------------------
 
 
@@ -179,3 +187,9 @@ countp(0,0).
 countp(TridSizemenos1,R):- New is TridSizemenos1 - 1,
         countp(New,R1),
         R is R1 + 2*New +1.
+
+update(R1,R2,R3,R4,C1,C2,C3,C4):-
+        C1 is R1 - 1,
+        C2 is R2 - 1,
+        C3 is R3 - 1,
+        C4 is R4 - 1.
