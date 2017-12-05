@@ -10,6 +10,7 @@ genericChoose:-
         read(MaxValue),
         tridplayerGeneric(MinValue,MaxValue,TridSize).
 
+%gera as listas e chama os predicados que , primeiro vao gerar o problema e depis o resolvem
 tridplayerGeneric(MinValue,MaxValue,TridSize) :-
         count(TridSize,Total),
         length(VariablesList,Total),
@@ -18,17 +19,14 @@ tridplayerGeneric(MinValue,MaxValue,TridSize) :-
         countp(TridSizemenos1,TotalTri),
         length(TrianglesList,TotalTri),
         Values = [MinValue,MaxValue],
-
         playGameGenericAuto(VariablesList,TrianglesList,Values,TridSize),
         write(TrianglesList),nl,
-
         randomvalues(R1,R2,R3,R4,TotalTri),
         nth1(R1,TrianglesList,Valor1),
         nth1(R2,TrianglesList,Valor2),
         nth1(R3,TrianglesList,Valor3),
         nth1(R4,TrianglesList,Valor4),
         update(R1,R2,R3,R4,C1,C2,C3,C4),
-
         length(VariablesListPlay,Total),
         length(TrianglesListPlay,TotalTri),
         replaceInThePosition(TrianglesListPlay, C1, Valor1, RList),
@@ -47,13 +45,13 @@ tridplayerGeneric(MinValue,MaxValue,TridSize) :-
         statistics(walltime, [_ | [ExecutionTime]]),
         generateVariablesListFrom(VariablesListPlay,1,RV1,TridSize),
         generateTrianglesListFrom(RList,1,RT1,TridSizemenos1),
-        
         printBoard(RV1,RT1,TridSize),nl,nl,nl,
         write('Execution took '), write(ExecutionTime), write(' ms.'),nl,
         Seconds is ExecutionTime / 1000,
         write('Execution took '), write(Seconds), write(' seconds.'),nl,
         nl,fd_statistics.
 
+%gera o problema
 playGameGenericAuto(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :-
         domain(Vertices,MinValue,MaxValue),
         TamanhoTridMenos1 is TamanhoTrid - 1,
@@ -65,6 +63,7 @@ playGameGenericAuto(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :-
         lineRestrictions(RV,TamanhoTrid),
         labeling([],Vertices).
 
+%resolve o problema
 playGameGeneric(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :- write('play generic'),nl,
         domain(Vertices,MinValue,MaxValue),
         TamanhoTridMenos1 is TamanhoTrid - 1,
@@ -82,13 +81,13 @@ playGameGeneric(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :- write('p
 
 %------------------------
 
+%faz as restricoes das linhas que fazem as arestas de todos os triangulos 
 lineRestrictions(Vertices,TridSize):- innerRestrictions(Vertices,2,2,TridSize),
         allfirsts(Vertices,ResultF),
         all_different(ResultF),
         allLinesDistinct(Vertices),
         allfinals(Vertices,ResultFinals),
         all_different(ResultFinals).
-
 
 
 %    restricoes([['A'],['B','C'],['D','E','F'],['G','H','I','J']],[['A1'],['B1','C1','D1'],['E1','F1','G1','H1','I1']],3).    
