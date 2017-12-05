@@ -18,17 +18,17 @@ tridplayerGeneric(MinValue,MaxValue,TridSize) :-
         countp(TridSizemenos1,TotalTri),
         length(TrianglesList,TotalTri),
         Values = [MinValue,MaxValue],
-       
+
         playGameGenericAuto(VariablesList,TrianglesList,Values,TridSize),
         write(TrianglesList),nl,
-        
-        randomvalues(R1,R2,R3,R4,TridSize),
+
+        randomvalues(R1,R2,R3,R4,TotalTri),
         nth1(R1,TrianglesList,Valor1),
         nth1(R2,TrianglesList,Valor2),
         nth1(R3,TrianglesList,Valor3),
         nth1(R4,TrianglesList,Valor4),
         update(R1,R2,R3,R4,C1,C2,C3,C4),
-              
+
         length(VariablesListPlay,Total),
         length(TrianglesListPlay,TotalTri),
         replaceInThePosition(TrianglesListPlay, C1, Valor1, RList),
@@ -55,7 +55,7 @@ playGameGenericAuto(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :-
         write(RV),nl,
         write(RT),nl,
         restricoes(RV,RT,TamanhoTridMenos1),
-        lineRestrictions(RV),
+        lineRestrictions(RV,TamanhoTrid),
         labeling([],Vertices).
 
 playGameGeneric(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :- write('play generic'),nl,
@@ -67,28 +67,15 @@ playGameGeneric(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :- write('p
         write(RV),nl,
         write(RT),nl,
         restricoes(RV,RT,TamanhoTridMenos1),
-        lineRestrictions(RV),
+        lineRestrictions(RV,TamanhoTrid),
         write('fez restricoes'),nl,!,
         labeling([],Vertices).
 
-%c:- allfirsts([['A'],['B','C'],['D','E','F'],['G','H','I','J'], ['K','L','M','N','O']], Rs), write(Rs).
-allfirsts(Ls, Rs) :-
-        maplist(member, Rs, Ls).
-
-%l:- allLinesDistinct([['A'],['B','C'],['D','E','F'],['G','H','I','J'], ['K','L','M','N','O']]).
-allLinesDistinct([]).
-allLinesDistinct([Head|Tail]):- all_different(Head),
-        allLinesDistinct(Tail). 
 
 
-%f:- allfinals([['A'],['B','C'],['D','E','F'],['G','H','I','J'], ['K','L','M','N','O']], Rs), write(Rs).
-allfinals([],[]).
-allfinals([Head|Tail],[H|T]):-
-        length(Head,SizeH),
-        nth1(SizeH,Head,H),
-        allfinals(Tail,T).
+%------------------------
 
-lineRestrictions(Vertices):-
+lineRestrictions(Vertices,TridSize):- innerRestrictions(Vertices,2,2,TridSize),
         allfirsts(Vertices,ResultF),
         all_different(ResultF),
         allLinesDistinct(Vertices),
@@ -129,6 +116,64 @@ restrictionsAux([A,B|TVerticesN],[C,D|TVerticesN1], [A1,B1|TListaTriangles],X, T
 
 restrictionsAux([A|_],[C,D|_], [A1|_],X, Tinicial):- Tinicial == X,
         A+C+D #= A1.
+
+
+%c:- allfirsts([['A'],['B','C'],['D','E','F'],['G','H','I','J'], ['K','L','M','N','O']], Rs), write(Rs).
+allfirsts(Ls, Rs) :-
+        maplist(member, Rs, Ls).
+
+%l:- allLinesDistinct([['A'],['B','C'],['D','E','F'],['G','H','I','J'], ['K','L','M','N','O']]).
+allLinesDistinct([]).
+allLinesDistinct([Head|Tail]):- all_different(Head),
+        allLinesDistinct(Tail). 
+
+
+%f:- allfinals([['A'],['B','C'],['D','E','F'],['G','H','I','J'], ['K','L','M','N','O']], Rs), write(Rs).
+allfinals([],[]).
+allfinals([Head|Tail],[H|T]):-
+        length(Head,SizeH),
+        nth1(SizeH,Head,H),
+        allfinals(Tail,T).
+
+%d:- diagonal1([['A'],['B','C'],['D','E','F'],['G','H','I','J'],['K','L','M','N','O']],2,1,5, Rs), write(Rs).
+diagonal1(Vertices,X,Y,TridSize,[H|[]]):- X == TridSize,
+        nth1(X,Vertices,ListaR),
+        nth1(Y,ListaR,H).
+diagonal1(Vertices,X,Y,TridSize,[H|T]):- X < TridSize,
+        nth1(X,Vertices,ListaR),
+        nth1(Y,ListaR,H),
+        X1 is X + 1,
+        Y1 is Y + 1,
+        diagonal1(Vertices,X1,Y1,TridSize, T).
+
+%d:- diagonal2([['A'],['B','C'],['D','E','F'],['G','H','I','J'],['K','L','M','N','O']],2,1,5, Rs), write(Rs).
+diagonal2(Vertices,X,Y,TridSize,[H|[]]):- X == TridSize,
+        nth1(X,Vertices,ListaR),
+        nth1(Y,ListaR,H).
+diagonal2(Vertices,X,Y,TridSize,[H|T]):- X < TridSize,
+        nth1(X,Vertices,ListaR),
+        nth1(Y,ListaR,H),
+        X1 is X + 1,
+        diagonal2(Vertices,X1,Y,TridSize, T).
+
+
+%i:- innerRestrictions([['A'],['B','C'],['D','E','F'],['G','H','I','J'],['K','L','M','N','O']],2,2,5).
+innerRestrictions(Vertices,X,Y,TridSize):- Tridsizemenos1 is TridSize - 1,
+        X == Tridsizemenos1,
+        diagonal1(Vertices,X,1,TridSize,ResultList),
+        all_different(ResultList),
+        diagonal2(Vertices,X,Y,TridSize,ResultList2),
+        all_different(ResultList2).
+innerRestrictions(Vertices,X,Y,TridSize):- Tridsizemenos1 is TridSize - 1,
+        X < Tridsizemenos1,
+        diagonal1(Vertices,X,1,TridSize,ResultList),
+        all_different(ResultList),
+        diagonal2(Vertices,X,Y,TridSize,ResultList2),
+        all_different(ResultList2),
+        X1 is X + 1,
+        Y1 is Y + 1,
+        innerRestrictions(Vertices,X1,Y1,TridSize).
+
 
 %----------------------------
 
