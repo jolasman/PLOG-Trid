@@ -39,7 +39,7 @@ tridplayerGeneric(MinValue,MaxValue,TridSize) :-
         write('A gerar problema...'),nl,nl,   
         sleep(1),
         generateVariablesListFrom(VariablesList1,1,RV,TridSize),
-        printBoard(RV,RT),   
+        printBoard(RV,RT,TridSize),   
         write('A resolver o problema...'),nl,nl,   
         sleep(1),!,
         statistics(walltime, [_ | [_]]),
@@ -47,7 +47,8 @@ tridplayerGeneric(MinValue,MaxValue,TridSize) :-
         statistics(walltime, [_ | [ExecutionTime]]),
         generateVariablesListFrom(VariablesListPlay,1,RV1,TridSize),
         generateTrianglesListFrom(RList,1,RT1,TridSizemenos1),
-        printBoard(RV1,RT1),nl,nl,nl,
+        
+        printBoard(RV1,RT1,TridSize),nl,nl,nl,
         write('Execution took '), write(ExecutionTime), write(' ms.'),nl,
         Seconds is ExecutionTime / 1000,
         write('Execution took '), write(Seconds), write(' seconds.'),nl,
