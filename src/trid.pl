@@ -49,8 +49,7 @@ replaceInThePosition(L, P, E, R) :-
         findall(X, (nth0(I,L,Y), (I == P -> X=E ; X=Y)), R).
 
 
-randomvalues(R1,R2,R3,R4, TridSize):- N is TridSize - 1,
-        Final is 2*N + 1,
+randomvalues(R1,R2,R3,R4, TrianglesSize):- Final is TrianglesSize - 1,
         random(1,Final, R1),
         random(1,Final, R2),
         random(1,Final, R3),

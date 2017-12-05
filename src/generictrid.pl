@@ -42,10 +42,16 @@ tridplayerGeneric(MinValue,MaxValue,TridSize) :-
         printBoard(RV,RT),   
         write('A resolver o problema...'),nl,nl,   
         sleep(1),!,
+        statistics(walltime, [_ | [_]]),
         playGameGeneric(VariablesListPlay,RList,Values,TridSize),
+        statistics(walltime, [_ | [ExecutionTime]]),
         generateVariablesListFrom(VariablesListPlay,1,RV1,TridSize),
         generateTrianglesListFrom(RList,1,RT1,TridSizemenos1),
-        printBoard(RV1,RT1).
+        printBoard(RV1,RT1),nl,nl,nl,
+        write('Execution took '), write(ExecutionTime), write(' ms.'),nl,
+        Seconds is ExecutionTime / 1000,
+        write('Execution took '), write(Seconds), write(' seconds.'),nl,
+        nl,fd_statistics.
 
 playGameGenericAuto(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :-
         domain(Vertices,MinValue,MaxValue),
