@@ -20,7 +20,6 @@ tridplayerGeneric(MinValue,MaxValue,TridSize) :-
         length(TrianglesList,TotalTri),
         Values = [MinValue,MaxValue],
         playGameGenericAuto(VariablesList,TrianglesList,Values,TridSize),
-        write(TrianglesList),nl,
         randomvalues(R1,R2,R3,R4,TotalTri),
         nth1(R1,TrianglesList,Valor1),
         nth1(R2,TrianglesList,Valor2),
@@ -37,7 +36,7 @@ tridplayerGeneric(MinValue,MaxValue,TridSize) :-
         write('A gerar problema...'),nl,nl,   
         sleep(1),
         generateVariablesListFrom(VariablesList1,1,RV,TridSize),
-        printBoard(RV,RT,TridSize),   
+        printBoard(RV,RT,TridSize),nl,nl,   
         write('A resolver o problema...'),nl,nl,   
         sleep(1),!,
         statistics(walltime, [_ | [_]]),
@@ -57,24 +56,18 @@ playGameGenericAuto(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :-
         TamanhoTridMenos1 is TamanhoTrid - 1,
         generateVariablesListFrom(Vertices,1,RV,TamanhoTrid),
         generateTrianglesListFrom(Triangles,1,RT,TamanhoTridMenos1),
-        write(RV),nl,
-        write(RT),nl,
         restricoes(RV,RT,TamanhoTridMenos1),
-        lineRestrictions(RV,TamanhoTrid),
+        lineRestrictions(RV,TamanhoTrid),!,
         labeling([],Vertices).
 
 %resolve o problema
-playGameGeneric(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :- write('play generic'),nl,
+playGameGeneric(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :-
         domain(Vertices,MinValue,MaxValue),
         TamanhoTridMenos1 is TamanhoTrid - 1,
         generateVariablesListFrom(Vertices,1,RV,TamanhoTrid),
         generateTrianglesListFrom(Triangles,1,RT,TamanhoTridMenos1),
-        write('estou a fazer'),nl,
-        write(RV),nl,
-        write(RT),nl,
         restricoes(RV,RT,TamanhoTridMenos1),
-        lineRestrictions(RV,TamanhoTrid),
-        write('fez restricoes'),nl,!,
+        lineRestrictions(RV,TamanhoTrid),!,
         labeling([],Vertices).
 
 
@@ -105,7 +98,7 @@ restrictions([Hvertices,H2ver|_],[Htriangles|_], 1):-
         nth1(1,Htriangles,A1),
         A+B+C #= A1.
 
-restrictions(Vertices,Triangles, N):- write('entrou'),
+restrictions(Vertices,Triangles, N):-
         nth1(N,Vertices,ListaVerticesN),
         N1 is N + 1,
         nth1(N1,Vertices,ListaVerticesN1),
