@@ -10,6 +10,7 @@ printBoard([HVar|[]],_,TridSize):- espaces(TridSize),
 printBoard([HVar|Tvar], [HTri|TTri],TridSize) :- espaces(TridSize),
         printListV(HVar),
         espaces(TridSize),
+        write(' '),
         printListT(HTri),
         FinalSize is TridSize - 1,
         printBoard(Tvar,TTri, FinalSize).
