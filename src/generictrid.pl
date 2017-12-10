@@ -12,6 +12,7 @@ genericChoose:-
 
 %gera as listas e chama os predicados que , primeiro vao gerar o problema e depis o resolvem
 tridplayerGeneric(MinValue,MaxValue,TridSize) :-
+        write('A gerar problema...'),nl,nl,   
         count(TridSize,Total),
         length(VariablesList,Total),
         length(VariablesList1,Total),
@@ -33,8 +34,6 @@ tridplayerGeneric(MinValue,MaxValue,TridSize) :-
         replaceInThePosition(TrianglesListPlay, C3, Valor3, RList),
         replaceInThePosition(TrianglesListPlay, C4, Valor4, RList),
         generateTrianglesListFrom(RList,1,RT,TridSizemenos1),
-        write('A gerar problema...'),nl,nl,   
-        sleep(1),
         generateVariablesListFrom(VariablesList1,1,RV,TridSize),
         printBoard(RV,RT,TridSize),nl,nl,   
         write('A resolver o problema...'),nl,nl,   
