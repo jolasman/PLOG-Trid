@@ -11,16 +11,10 @@ genericChoose:-
         tridplayerGeneric(MinValue,MaxValue,TridSize).
 
 %gera as listas e chama os predicados que , primeiro vao gerar o problema e depis o resolvem
-tridplayerGeneric(MinValue,MaxValue,TridSize) :-
+tridplayerGeneric(MinValue,MaxValue,TridSize) :- TridSizemenos1 is TridSize - 1,
         write('A gerar problema...'),nl,nl,   
-        count(TridSize,Total),
-        length(VariablesList,Total),
-        length(VariablesList1,Total),
-        TridSizemenos1 is TridSize - 1,
-        countp(TridSizemenos1,TotalTri),
-        length(TrianglesList,TotalTri),
-        Values = [MinValue,MaxValue],
-        playGameGenericAuto(VariablesList,TrianglesList,Values,TridSize),
+        createTrid(MinValue,MaxValue,VariablesList1,TrianglesList,Values,TridSize,TridSizemenos1,Total,TotalTri,ExecutionTime,Seconds),
+        % imporar numeros random da solucao obtida
         randomvalues(R1,R2,R3,R4,TotalTri),
         nth1(R1,TrianglesList,Valor1),
         nth1(R2,TrianglesList,Valor2),
@@ -35,10 +29,31 @@ tridplayerGeneric(MinValue,MaxValue,TridSize) :-
         replaceInThePosition(TrianglesListPlay, C4, Valor4, RList),
         generateTrianglesListFrom(RList,1,RT,TridSizemenos1),
         generateVariablesListFrom(VariablesList1,1,RV,TridSize),
-        printBoard(RV,RT,TridSize),nl,nl,   
-        write('A resolver o problema...'),nl,nl,   
-        sleep(1),!,
+        %print do tabuleiro a resolver
+        printBoard(RV,RT,TridSize),nl,nl,  
+        write('Create the Trid puzzle took '), write(ExecutionTime), write(' ms.'),nl,
+        write('Create the Trid puzzle took '), write(Seconds), write(' seconds.'),nl,
+        nl,fd_statistics,nl,nl, 
+        write('A resolver o problema...'),nl,nl,
+        %resolver trid com base no ja calculado 
+        solveTrid(VariablesListPlay,RList,Values,TridSize,TridSizemenos1).
+
+
+%gera todo o problema
+createTrid(MinValue,MaxValue,VariablesList1,TrianglesList,Values,TridSize,TridSizemenos1,Total,TotalTri,ExecutionTime,Seconds):-
+        count(TridSize,Total),
+        length(VariablesList,Total),
+        length(VariablesList1,Total),
+        countp(TridSizemenos1,TotalTri),
+        length(TrianglesList,TotalTri),
+        Values = [MinValue,MaxValue],
         statistics(walltime, [_ | [_]]),
+        playGameGenericAuto(VariablesList,TrianglesList,Values,TridSize),
+        statistics(walltime, [_ | [ExecutionTime]]),
+        Seconds is ExecutionTime / 1000.
+
+%da a solicao final
+solveTrid(VariablesListPlay,RList,Values,TridSize,TridSizemenos1):- statistics(walltime, [_ | [_]]),
         playGameGeneric(VariablesListPlay,RList,Values,TridSize),
         statistics(walltime, [_ | [ExecutionTime]]),
         generateVariablesListFrom(VariablesListPlay,1,RV1,TridSize),
@@ -48,6 +63,7 @@ tridplayerGeneric(MinValue,MaxValue,TridSize) :-
         Seconds is ExecutionTime / 1000,
         write('Execution took '), write(Seconds), write(' seconds.'),nl,
         nl,fd_statistics.
+
 
 %gera o problema
 playGameGenericAuto(Vertices,Triangles,[MinValue,MaxValue], TamanhoTrid) :-
