@@ -4,6 +4,7 @@
 
 % tridplayer([A,12,B,C,9,D,E,F,6]).
 % tridplayer([A,12,B,C,9,D,E,F,6,6,G,12,H,8,I,P]).
+%size 100 -> 1 - 128
 
 :- include('print.pl').
 :- include('generictrid.pl').
